@@ -12,13 +12,13 @@ function Input(props) {
       value={value}
       className={
         styled +
-        " py-5 pl-6 mt-6 focus:outline-none " +
+        " py-5 pl-6 mt-6 focus:outline-none cursor-pointer " +
         `${
           isDisabled
             ? "bg-gray-100 rounded-3xl py-5 pl-6 mt-6 font-semibold text-base tracking-tight placeholder-[#222222] placeholder-opacity-[50%] placeholder-font-semibold placeholder-text-xl "
             : !isValid
-            ? "bg-transparent border-b-2 border-[#10AC84]"
-            : "bg-transparent border-b-2 border-[#FF0018]"
+            ? "bg-transparent border-b-2 border-green-400"
+            : "bg-transparent border-b-2 border-red-500 text-red-500 "
         }`
       }
       placeholder={placeholder}

@@ -5,4 +5,5 @@
 body {
   @apply bg-[#F9F9F9];
   @apply box-border;
+  @apply cursor-pointer;
 }

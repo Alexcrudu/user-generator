@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
-import user from "../image/user-regular.svg";
+// import user from "../image/user-regular.svg";
 import Input from "./Input";
 import Error from "./Error";
 import Button from "./Button";
+import Circular from "./Circular"
 import axios from "axios";
-import {
-  CircularProgressbarWithChildren,
-  buildStyles,
-} from "react-circular-progressbar";
-import "react-circular-progressbar/dist/styles.css";
+// import {
+//   CircularProgressbarWithChildren,
+//   buildStyles,
+// } from "react-circular-progressbar";
+// import "react-circular-progressbar/dist/styles.css";
 
 function Form() {
   const [userValue, setUserValue] = useState({
@@ -35,14 +36,14 @@ function Form() {
       setIntervalVal(
         setInterval(() => {
           setPercent((prev) => {
-            return prev + 2;
+            return prev + 3;
           });
         }, 50)
       );
     } else {
       clearInterval(intervalVal);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [running]);
 
   useEffect(() => {
@@ -50,7 +51,7 @@ function Form() {
       setRunning(false);
       clearInterval(intervalVal);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [percent]);
 
   const onClickHandler = () => {
@@ -72,6 +73,7 @@ function Form() {
 
   const onEditClickHandler = () => {
     setDisabled(false);
+    setValueErrors({})
     localStorage.setItem("User", JSON.stringify(userValue));
   };
 
@@ -156,43 +158,19 @@ function Form() {
     setActiveUser(false);
     setDisabled(true);
     setRunning(false);
-    setPercent(0)
+    setPercent(0);
   };
 
   return (
     <>
        <Error displayed={isError}></Error>
-      <form className="font-publicSans flex flex-col mt-[50px] w-1/3 m-auto left-2/4 top-2/4 bg-white rounded-3xl shadow-lg shadow-gray-50 mb-32">
+      <form className="font-publicSans flex flex-col mt-[50px] w-full max-w-2xl mx-auto bg-white rounded-3xl shadow-lg shadow-gray-50 mb-32">
         <div
           className={
-            "flex justify-center ml-auto mr-auto w-[260px] h-[260px] rounded-full mt-12 bg-[#F1F2F6] "
+            "flex justify-center ml-auto mr-auto w-[260px] h-[260px] rounded-full mt-12 bg-white-100 "
           }
         >
-          <CircularProgressbarWithChildren
-            value={percent}
-            className={"w-[260px]"}
-            strokeWidth={2}
-            styles={buildStyles({
-              strokeLinecap: "round",
-              pathTransitionDuration: 0.5,
-              strokeWidth: 2,
-              pathColor: "#10AC84",
-            })}
-          >
-            <img
-              className={
-                `${percent >= 100 ? "w-full rounded-full " : "mb-[25px]"}` +
-                "block mx-auto my-auto  bg-gray-100 "
-              }
-              alt="user"
-              src={percent < 99 ? user : userValue.img}
-            ></img>
-            {percent < 100 && percent > 0 && (
-              <div className={"mb-[20px]"}>
-                <strong>{percent} %</strong>
-              </div>
-            )}
-          </CircularProgressbarWithChildren>
+            <Circular percentBar={percent} userImg={userValue.img}></Circular>
         </div>
         <div className="flex justify-between flex-wrap w-[85%] mx-auto mb-12">
           <Input
@@ -270,11 +248,11 @@ function Form() {
               isLoaded={isLoaded}
               clicked={onClickHandler}
               styled={
-                "w-full text-white " +
+                "w-full text-white-100 " +
                 `${
                   activeUser
-                    ? "bg-gradient-to-l from-[#1DD1A1] to-[#10AC84] "
-                    : "bg-gradient-to-l from-[#B9B9B9] to-[#9F9F9F] "
+                    ? "bg-gradient-to-l from-green-500 to-green-400 "
+                    : "bg-gradient-to-l from-white-200 to-white-300 "
                 }`
               }
               text={"User generieren"}
@@ -284,7 +262,7 @@ function Form() {
               <Button
                 clicked={isDisabled ? onEditClickHandler : onCancelClickHandler}
                 styled={
-                  "w-[47.5%] text-[#10AC84] text-[600] border-2 border-solid border-[#10AC84]"
+                  "w-[47.5%] text-green-400 text-[600] border-2 border-solid border-green-400 "
                 }
                 text={isDisabled ? "Bearbeiten" : "Abrechen"}
               ></Button>
@@ -293,7 +271,7 @@ function Form() {
                   !isDisabled ? onSaveClickHandler : createUserClickHandler
                 }
                 styled={
-                  "w-[47.5%] text-white bg-gradient-to-l from-[#1DD1A1] to-[#10AC84] "
+                  "w-[47.5%] text-white-100 bg-gradient-to-l from-green-500 to-green-400 "
                 }
                 text={isDisabled ? "User anlegen" : "Speichern"}
               ></Button>
